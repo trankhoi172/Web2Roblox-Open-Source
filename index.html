@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web2Roblox - HTML/CSS to Roblox GUI Converter</title>
+    <a href="/" class="logo">
+    <img src="assets/khoiidol-logo.png" alt="Web2Roblox Logo" class="logo-icon">
+    <span>Web2Roblox</span>
+    </a>
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="toolbar">
+        <div class="toolbar-left">
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="3" y="3" width="18" height="18" rx="4" stroke="currentColor" stroke-width="2"/>
+                    <path d="M8 12H16M12 8V16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <span>Web2Roblox</span>
+            </div>
+        </div>
+
+        <div class="toolbar-center">
+            <button class="toolbar-btn" id="btnNew">New</button>
+            <a href="docs.html" target="_blank" class="toolbar-btn">Documentation</a>
+        </div>
+        <div class="toolbar-right">
+            <button class="toolbar-btn primary" id="btnConvert">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13 5L20 12L13 19M4 12H20" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                Convert
+            </button>
+        </div>
+    </header>
+
+    <main class="workspace">
+
+<section class="panel left-panel">
+    <div class="panel-header left-panel-header">
+        <h2>Source Code</h2>
+
+<div class="panel-actions">
+    <button class="icon-btn" id="btnLoadFile" title="Load File">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+    </button>
+    <button class="icon-btn" id="btnFormat" title="Auto Format">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="21" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="21" y1="18" x2="3" y2="18"/></svg>
+    </button>
+
+    <button class="icon-btn" id="btnClear" title="Clear Editor">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+        </svg>
+    </button>
+    <input type="file" id="fileInput" accept=".html,.htm,.css,.txt" style="display: none;">
+</div>
+    </div>
+
+    <div class="tabs">
+        <button class="tab active" data-tab="paste">Paste HTML</button>
+        <button class="tab" data-tab="url">URL</button>
+        <button class="tab" data-tab="examples">Examples</button>
+    </div>
+
+    <div class="tab-content active" id="tab-paste">
+        <div class="editor-wrapper">
+            <div class="line-numbers" id="lineNumbers">1</div>
+            <div class="editor-container">
+                <pre aria-hidden="true"><code id="highlightLayer"></code></pre>
+                <textarea id="htmlInput" spellcheck="false" placeholder="Paste your HTML/CSS here, drag & drop a file, or use the tabs above..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-content" id="tab-url">
+        <div class="input-group">
+            <input type="url" id="urlInput" placeholder="https://example.com">
+            <button class="btn-secondary" id="btnLoadUrl">Fetch</button>
+        </div>
+    </div>
+
+    <div class="tab-content" id="tab-examples">
+        <div class="examples-list">
+            <div class="example-item" data-example="landing">Landing Page Hero</div>
+            <div class="example-item" data-example="card">Profile Card</div>
+            <div class="example-item" data-example="nav">Navigation Bar</div>
+        </div>
+    </div>
+</section>
+
+<script src="js/utils.js"></script>
+<script src="js/examples.js"></script>
+<script src="js/editor.js"></script>
+<script src="js/cssParser.js"></script>
+<script src="script.js"></script>
+
+        <div class="resizer" id="resizer"></div>
+
+         <section class="panel right-panel">
+    <div class="panel-header">
+        <h2>Roblox Output</h2>
+    </div>
+
+    <div class="output-section roblox-hierarchy-section">
+        <h3>Roblox Hierarchy</h3>
+        <div class="explorer-tree" id="robloxTree">
+            <p class="placeholder-text">Click 'Convert' to map to Roblox</p>
+        </div>
+    </div>
+
+    <div class="output-section image-converter-section">
+        <h3>Image Assets</h3>
+        <div class="image-warning">
+            <p>️ External image URLs don't work in Roblox. Replace them with Roblox Asset IDs.</p>
+        </div>
+        <div class="image-list" id="imageList">
+            <p class="placeholder-text">No images found</p>
+        </div>
+        <div class="image-input-group">
+            <input type="text" id="assetIdInput" placeholder="rbxassetid://123456789">
+            <button class="btn-secondary" id="btnApplyAssetId">Apply</button>
+        </div>
+    </div>
+
+    <div class="output-section download-section">
+        <h3>Export</h3>
+        <div class="export-actions">
+            <button class="btn-secondary" id="btnCopyXml" disabled>Copy XML</button>
+            <button class="btn-primary" id="btnDownload" disabled>Download .rbxmx</button>
+        </div>
+    </div>
+</section>
+    </main>
+
+    <footer class="status-bar">
+        <div class="status-left">
+            <span class="status-indicator ready"></span>
+            <span id="statusText">Ready</span>
+        </div>
+        <div class="status-right">
+            <span id="cursorPos">Ln 1, Col 1</span>
+            <span>UTF-8</span>
+            <span>HTML/CSS</span>
+        </div>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script src="js/examples.js"></script>
+    <script src="js/editor.js"></script>
+    <script src="js/parser.js"></script>
+    <script src="js/cssParser.js"></script>
+    <script src="js/htmlMapper.js"></script>
+    <script src="js/cssMapper.js"></script>
+    <script src="js/xmlGenerator.js"></script>
+    <script src="js/domExporter.js"></script> 
+
+    <script src="script.js"></script>
+
+<div id="render-target" style="position: absolute; top: -9999px; left: -9999px; width: 1920px; height: 1080px; background: transparent; pointer-events: none;"></div>
+</body>
+</html>
