@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web2Roblox - Documentation</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* --- Documentation Specific Styles --- */
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            /* --- ADD THESE TWO LINES TO FIX THE SCROLLING --- */
+            height: auto !important;
+            overflow-y: auto !important; 
+        }
+        .docs-header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .docs-header h1 {
+            font-size: 24px;
+            margin: 0;
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .back-btn {
+            background: var(--accent);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .back-btn:hover {
+            background: var(--accent-hover);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+        .docs-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .section {
+            margin-bottom: 60px;
+            scroll-margin-top: 80px;
+        }
+        .section h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section h3 {
+            font-size: 20px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+        .section p, .section li {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+        .section ul, .section ol {
+            padding-left: 20px;
+        }
+        .section li {
+            margin-bottom: 8px;
+        }
+        
+        /* Table Styles */
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+        .styled-table th, .styled-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .styled-table th {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+        .styled-table tr:last-child td {
+            border-bottom: none;
+        }
+        .styled-table code {
+            background: var(--bg-primary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--accent);
+        }
+
+        /* Badges Grid */
+        .badges-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            margin-top: 15px;
+        }
+        .badge {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+        .badge:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .badge.supported::before {
+            content: '✓';
+            color: var(--success);
+            font-weight: bold;
+        }
+        .badge.unsupported::before {
+            content: '❌';
+        }
+
+        /* FAQ Accordion */
+        details {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        details[open] {
+            border-color: var(--accent);
+        }
+        summary {
+            padding: 15px 20px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-primary);
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        summary::after {
+            content: '+';
+            font-size: 20px;
+            color: var(--accent);
+            transition: transform 0.2s;
+        }
+        details[open] summary::after {
+            transform: rotate(45deg);
+        }
+        details p {
+            padding: 0 20px 15px;
+            margin: 0;
+            color: var(--text-secondary);
+        }
+
+        /* Changelog */
+        .changelog-item {
+            border-left: 2px solid var(--accent);
+            padding-left: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .changelog-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 5px;
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+        .changelog-version {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 16px;
+        }
+        .changelog-date {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+        .changelog-list {
+            list-style: none;
+            padding: 0;
+        }
+        .changelog-list li::before {
+            content: '✓ ';
+            color: var(--success);
+        }
+    </style>
+</head>
+<body>
+    <header class="docs-header">
+        <h1>📚 Web2Roblox Documentation</h1>
+        <a href="index.html" class="back-btn">← Back to App</a>
+    </header>
+
+    <main class="docs-container">
+        <!-- Quick Start -->
+        <section class="section" id="quickstart">
+            <h2>🚀 Quick Start</h2>
+            <ol>
+                <li>Paste your HTML and CSS into the left panel.</li>
+                <li>Click the <strong>Convert</strong> button in the top right.</li>
+                <li>Review the generated Roblox hierarchy in the right panel.</li>
+                <li>Replace any external image URLs with Roblox Asset IDs using the <strong>Image Assets</strong> panel.</li>
+                <li>Click <strong>Download .rbxmx</strong>.</li>
+                <li>Open Roblox Studio, right-click <strong>StarterGui</strong>, and select <strong>Insert From File</strong>.</li>
+            </ol>
+        </section>
+
+        <!-- Supported HTML -->
+        <section class="section" id="html">
+            <h2>📦 Supported HTML Elements</h2>
+            <p>The converter maps standard HTML tags to their closest Roblox GUI equivalents.</p>
+            <table class="styled-table">
+                <thead>
+                    <tr>
+                        <th>HTML Element</th>
+                        <th>Roblox Instance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><code>div</code>, <code>section</code>, <code>nav</code></td><td>Frame</td></tr>
+                    <tr><td><code>button</code>, <code>[role="button"]</code></td><td>TextButton</td></tr>
+                    <tr><td><code>input</code>, <code>textarea</code></td><td>TextBox</td></tr>
+                    <tr><td><code>img</code>, <code>svg</code></td><td>ImageLabel</td></tr>
+                    <tr><td><code>p</code>, <code>span</code>, <code>label</code></td><td>TextLabel</td></tr>
+                    <tr><td><code>h1</code> – <code>h6</code></td><td>TextLabel</td></tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Supported CSS -->
+        <section class="section" id="css">
+            <h2>🎨 Supported CSS</h2>
+            <p>We use the browser's native rendering engine to calculate layouts, ensuring high fidelity. The following CSS properties are actively mapped to Roblox properties:</p>
+            <div class="badges-grid">
+                <div class="badge supported">background</div>
+                <div class="badge supported">color</div>
+                <div class="badge supported">border</div>
+                <div class="badge supported">border-radius</div>
+                <div class="badge supported">padding</div>
+                <div class="badge supported">margin</div>
+                <div class="badge supported">width</div>
+                <div class="badge supported">height</div>
+                <div class="badge supported">display: flex</div>
+                <div class="badge supported">justify-content</div>
+                <div class="badge supported">align-items</div>
+                <div class="badge supported">gap</div>
+                <div class="badge supported">opacity</div>
+                <div class="badge supported">font-size</div>
+                <div class="badge supported">font-weight</div>
+                <div class="badge supported">text-align</div>
+                <div class="badge supported">overflow</div>
+            </div>
+        </section>
+
+        <!-- Limitations -->
+        <section class="section" id="limitations">
+            <h2>❌ Current Limitations</h2>
+            <p>While we strive for 1:1 parity, some web technologies do not have direct equivalents in Roblox Studio:</p>
+            <div class="badges-grid">
+                <div class="badge unsupported">SVG icons (Lucide)</div>
+                <div class="badge unsupported">CSS animations</div>
+                <div class="badge unsupported">JavaScript logic</div>
+                <div class="badge unsupported">Pseudo-elements (::before)</div>
+                <div class="badge unsupported">Video / Canvas</div>
+                <div class="badge unsupported">External fonts</div>
+                <div class="badge unsupported">Complex filters</div>
+            </div>
+        </section>
+
+        <!-- Images -->
+        <section class="section" id="images">
+            <h2>🖼 Images & Assets</h2>
+            <p>Roblox does not support loading images directly from external web URLs (like <code>https://example.com/image.png</code>) for security and performance reasons.</p>
+            <h3>How to fix missing images:</h3>
+            <ol>
+                <li>Upload your image to Roblox using the <strong>Asset Manager</strong> or <strong>Toolbox</strong>.</li>
+                <li>Copy the <strong>Asset ID</strong> (it will look like <code>rbxassetid://123456789</code>).</li>
+                <li>In Web2Roblox, click on the missing image in the <strong>Image Assets</strong> panel.</li>
+                <li>Paste the Asset ID and click <strong>Apply</strong>.</li>
+                <li>Re-download the <code>.rbxmx</code> file.</li>
+            </ol>
+        </section>
+
+        <!-- Best Practices -->
+        <section class="section" id="practices">
+            <h2>💡 Best Practices</h2>
+            <ul>
+                <li><strong>Use semantic HTML:</strong> Use <code>&lt;button&gt;</code> for clickable elements instead of <code>&lt;div&gt;</code> with click handlers.</li>
+                <li><strong>Keep nesting reasonable:</strong> Deeply nested DOM trees can result in complex Roblox hierarchies.</li>
+                <li><strong>Test in Studio:</strong> Always preview your GUI in Roblox Studio after importing to check for minor layout shifts.</li>
+                <li><strong>Use Roblox Asset IDs:</strong> Replace all external image URLs before finalizing your project.</li>
+                <li><strong>Absolute vs Relative:</strong> The tool calculates positions relative to the parent. Ensure your CSS uses standard flow or Flexbox.</li>
+            </ul>
+        </section>
+
+        <!-- FAQ -->
+        <section class="section" id="faq">
+            <h2>❓ FAQ</h2>
+            
+            <details>
+                <summary>Why is my icon missing?</summary>
+                <p>Roblox does not support inline SVG code (like Lucide icons). The exporter replaces them with placeholder ImageLabels named <code>Icon_[ReplaceWithAssetID]</code>. You must upload the icon to Roblox and apply the Asset ID.</p>
+            </details>
+
+            <details>
+                <summary>Why is my font different?</summary>
+                <p>Roblox uses its own font system (e.g., Gotham, SourceSans). Custom web fonts (like Google Fonts) cannot be imported directly. The tool attempts to map font weights (Bold, Regular) to Roblox's closest equivalents.</p>
+            </details>
+
+            <details>
+                <summary>Why is my image blank?</summary>
+                <p>External URLs (HTTP/HTTPS) are blocked by Roblox. You must replace them with <code>rbxassetid://</code> URLs using the Image Assets panel in the app.</p>
+            </details>
+
+            <details>
+                <summary>Why did my layout change slightly?</summary>
+                <p>Roblox's UI rendering engine differs slightly from browser engines (Chromium/WebKit). While we use the browser's exact pixel calculations, minor rounding differences or font rendering variations may occur in Studio.</p>
+            </details>
+
+            <details>
+                <summary>Does it support JavaScript?</summary>
+                <p>No. This tool converts the <strong>visual structure</strong> (HTML/CSS) only. Interactive logic (click handlers, state management) must be scripted manually in Lua inside Roblox Studio.</p>
+            </details>
+        </section>
+
+        <!-- Changelog -->
+        <section class="section" id="changelog">
+            <h2>📝 Changelog</h2>
+            
+            <div class="changelog-item">
+                <div class="changelog-version">v1.0.0</div>
+                <div class="changelog-date">June 30, 2026</div>
+                <ul class="changelog-list">
+                    <li>Initial Release</li>
+                    <li>DOM-based layout tracing (1:1 pixel accuracy)</li>
+                    <li>Smart element mapping (Buttons, Labels, Frames)</li>
+                    <li>Visual style export (Colors, Borders, Corners)</li>
+                    <li>Asset replacement workflow for images</li>
+                    <li>One-click .rbxmx export</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
